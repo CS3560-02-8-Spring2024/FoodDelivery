@@ -14,7 +14,7 @@ public class Staff {
  /*
  * DeliveryDriver Class: create delivery drivers in restaurant system
  */
- public class DeliverDriver {
+ public class DeliveryDriver {
     private int deliveryID;
     private boolean availability;
  }
@@ -28,9 +28,9 @@ public class Staff {
     private String address;
     private String city;
     private String state;
-    private int zipCode;
-    private int phoneNumber;
-    private int paymentInfo; //credit card #
+    private String zipCode;
+    private String phoneNumber;
+    private String paymentInfo; //credit card #
  }
  /*
  * Order class: create a customer's respective order
@@ -70,6 +70,8 @@ public class Staff {
  * -Return: the array of items specified by the type indicated through "menuType[]"
  */
 public String[] printMenu(String orderType) {
+    String[] menuType; 
+
     return menuType[];
 }
 
@@ -124,7 +126,7 @@ public void createReview(int foodQ, int serviceQ, int deliveryQ, String extra) {
 
  /*
  * Allows an actor to view a review made by a previous customer
- * -Parameters: requires the 
+ * -Parameters: requires the specified quality related to foodQ, serviceQ, and/or deliveryQ
  * -Return: returns reviews of a specific quality related to foodQ, serviceQ, and/or deliveryQ
  */
 public String viewReview(int foodQ, int serviceQ, int deliveryQ) {
