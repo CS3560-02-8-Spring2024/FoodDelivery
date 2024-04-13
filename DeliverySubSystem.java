@@ -15,6 +15,7 @@ public class Staff {
  * DeliveryDriver Class: create delivery drivers in restaurant system
  */
  public class DeliveryDriver {
+    private int driverID;
     private int deliveryID;
     private boolean availability;
  }
