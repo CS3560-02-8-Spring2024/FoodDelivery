@@ -87,7 +87,7 @@ public class MainPageGUI extends JFrame implements ActionListener {
         bottomButtons.add(enterButton);
         panel.add(bottomButtons, BorderLayout.SOUTH);
 
-        mainPanel.add(panel, "BurgerPanel");
+        mainPanel.add(panel, "SignInPanel");
     }
 
     private void createFriesPanel() {
@@ -122,11 +122,14 @@ public class MainPageGUI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
-        if (command.equals("Sign In") || command.equals("Fries") || command.equals("Drink")) {
+        if (command.equals("Fries") || command.equals("Drink")) {
             cardLayout.show(mainPanel, command + "Panel");
         } 
         else if (command.equals("Back to Main Menu")) {
             cardLayout.show(mainPanel, "MainPanel");
+        }
+        else if (command.equals("Sign In")) {
+            cardLayout.show(mainPanel, "SignInPanel");
         }
         else if (command.equals("Return")) {
             cardLayout.show(mainPanel, "MainPanel");
@@ -137,83 +140,4 @@ public class MainPageGUI extends JFrame implements ActionListener {
         SwingUtilities.invokeLater(MainPageGUI::new);
     }
 
-
-    // private JLabel titleLabel;
-    // private JButton burgerButton, friesButton, drinkButton;
-    // private JLabel orderLabel;
-    // private JTextArea orderTextArea;
-    // private JButton clearButton;
-
-    // public MainPageGUI() {
-    //     setTitle("CS3560:FDSS");
-    //     setSize(400, 300);
-    //     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    //     setLocationRelativeTo(null);
-    //     setLayout(new GridLayout(4, 1));
-
-    //     // Title
-    //     titleLabel = new JLabel("Food Delivery Subsystem (NEED A NAME)", SwingConstants.TOP);
-    //     add(titleLabel);
-
-    //     // Menu Buttons
-    //     burgerButton = new JButton("Burger");
-    //     burgerButton.addActionListener(this);
-    //     friesButton = new JButton("Fries");
-    //     friesButton.addActionListener(this);
-    //     drinkButton = new JButton("Drink");
-    //     drinkButton.addActionListener(this);
-
-    //     JPanel menuPanel = new JPanel(new FlowLayout());
-    //     menuPanel.add(burgerButton);
-    //     menuPanel.add(friesButton);
-    //     menuPanel.add(drinkButton);
-    //     add(menuPanel);
-
-    //     // Order Section
-    //     orderLabel = new JLabel("Your Order:", SwingConstants.CENTER);
-    //     orderTextArea = new JTextArea();
-    //     orderTextArea.setEditable(false);
-    //     JScrollPane scrollPane = new JScrollPane(orderTextArea);
-
-    //     JPanel orderPanel = new JPanel(new BorderLayout());
-    //     orderPanel.add(orderLabel, BorderLayout.NORTH);
-    //     orderPanel.add(scrollPane, BorderLayout.CENTER);
-    //     add(orderPanel);
-
-    //     // Clear Button
-    //     clearButton = new JButton("Clear Order");
-    //     clearButton.addActionListener(this);
-    //     add(clearButton);
-
-    //     setVisible(true);
-    // }
-
-    // @Override
-    // public void actionPerformed(ActionEvent e) {
-    //     if (e.getSource() == burgerButton) {
-    //         openNewScreen("Burger Screen");
-    //     } else if (e.getSource() == friesButton) {
-    //         openNewScreen("Fries Screen");
-    //     } else if (e.getSource() == drinkButton) {
-    //         openNewScreen("Drink Screen");
-    //     } else if (e.getSource() == clearButton) {
-    //         orderTextArea.setText("");
-    //     }
-    // }
-
-    // private void openNewScreen(String screenName) {
-    //     JFrame newFrame = new JFrame(screenName);
-    //     newFrame.setSize(300, 200);
-    //     newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    //     newFrame.setLocationRelativeTo(null);
-
-    //     JLabel label = new JLabel("This is the " + screenName);
-    //     label.setHorizontalAlignment(SwingConstants.CENTER);
-    //     newFrame.add(label);
-
-    //     newFrame.setVisible(true);
-    // }
-    // public static void main(String[] args) {
-    //     SwingUtilities.invokeLater(MainPageGUI::new);
-    // }
 }
