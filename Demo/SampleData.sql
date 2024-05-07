@@ -38,16 +38,19 @@ CREATE TABLE _order (
     FOREIGN KEY(customer_id) REFERENCES customer(customer_id),
     FOREIGN KEY(staff_id) REFERENCES staff(staff_id),
     FOREIGN KEY(driver_id) REFERENCES customer(customer_id),
-    PRIMARY KEY(staff_id)
+    PRIMARY KEY(order_id)
 );
 
 CREATE TABLE menu (
 	item_id INT(10) NOT NULL,
+    staff_id int(10),
     foodName VARCHAR(20),
     price DECIMAL(5,2),
     _description VARCHAR(255),
     PRIMARY KEY(staff_id)
 );
+
+CREATE INDEX idx_item_id ON menu(item_id);
 
 CREATE TABLE orderItem(
 	orderItem_id INT(10),
@@ -55,7 +58,7 @@ CREATE TABLE orderItem(
     item_id INT(10),
     order_id INT(4),
     FOREIGN KEY(item_id) REFERENCES menu(item_id),
-    FOREIGN KEY( order_id) REFERENCES _order(order_id),
+    FOREIGN KEY(order_id) REFERENCES _order(order_id),
     PRIMARY KEY(orderItem_id)
 );
 
@@ -83,4 +86,4 @@ CREATE TABLE address(
 );
 
 INSERT INTO `fdss`.`staff` (`staff_id`, `emailAddres`, `_password`, `firstName`, `lastName`) VALUES ('1', 'staff@cpp.edu', 'staff', 'Vincent', 'La');
-INSERT INTO `fdss`.`driver`(`driver_id`, `emailAddres`, `_password`, `availability`) VALUES ('1', 'bob@cpp.edu', 'builder');
+INSERT INTO `fdss`.`driver`(`driver_id`, `emailAddres`, `_password`, `availability`) VALUES ('1', 'bob@cpp.edu', 'builder', 'available');
