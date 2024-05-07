@@ -30,8 +30,8 @@ public class SignIntoAccount extends JFrame implements ActionListener {
             @Override
             public void run() {
                 try {
-                    SignIntoAccount frame = new SignIntoAccount();
-                    frame.setVisible(true);
+                    SignIntoAccount signInPage = new SignIntoAccount();
+                    signInPage.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
