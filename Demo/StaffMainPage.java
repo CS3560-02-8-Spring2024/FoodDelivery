@@ -16,8 +16,8 @@ public class StaffMainPage extends JFrame implements ActionListener {
                 @Override
                 public void run() {
                     try {
-                        Swing.StaffMainPage frame = new Swing.StaffMainPage();
-                        frame.setVisible(true);
+                        StaffMainPage staffMainPage = new StaffMainPage();
+                        staffMainPage.setVisible(true);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
