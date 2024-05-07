@@ -1,20 +1,12 @@
+
+
 public class DeliverSubSystemSame {
+    // public static void main(String[] args) {
+    //     System.out.println("hello world");
+    // }
 
     public class DeliverySubSystem {
-        public static void main(String[] args) {
-            System.out.println("hello world");
-        }
-    
             
-        /*
-        * Staff class: create staff members in restaurant system
-        */
-        public class Staff {
-            private int staffID;
-            private String name;
-        }
-        
-        
         /*
         * DeliveryDriver Class: create delivery drivers in restaurant system
         */
