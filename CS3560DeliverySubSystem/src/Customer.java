@@ -1,5 +1,7 @@
 import java.sql.*;
 
+import com.mysql.cj.protocol.Resultset;
+
 public class Customer {
     private int customerID;
     private String fName;
@@ -8,7 +10,8 @@ public class Customer {
     private String paymentInfo;
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        Customer customer1 = new Customer(2, "9356741034", "Credit", "Drake", "Drizzy");
+        Customer customer1 = new Customer(5, "0000000000", "CASH", "Test", "icles");
+        customer1.viewMenu();
     }
 
 
@@ -53,12 +56,27 @@ public class Customer {
      // METHODS FOR CUSTOMER (USE CASES)
         // VIEW MENU -- RATE/REVIEW SERVICE -- FILL SHOPPING CART -- CHECK STATUS -- CANCEL ORDER -- VIEW REVIEW
 
-    public ResultSet viewMenu() {
-        return null;
+    //CAN CHANGE OUTPUT TO BE ResultSet (which will be all the values inside that database NONPARSE)
+    public void viewMenu() throws ClassNotFoundException, SQLException {
+
+        Connection dbConnect = ConnectToServer.openConnect();
+        String sqlQuery = "SELECT * FROM cs3560dfss.menu";
+        //Printing out all the values inside the database
+        String output;
+        Statement sqlSt = dbConnect.createStatement();
+        ResultSet dbResults = sqlSt.executeQuery(sqlQuery);
+        //PRINTS OUT TO CONSOLE
+        while (dbResults.next() != false) {
+            output = dbResults.getString("item_id") + " " + dbResults.getString("foodName") + " " + dbResults.getInt("price") + 
+                " " + dbResults.getString("_description");
+            System.out.println(output);
+        }
+        ConnectToServer.closeConnect(dbConnect);
+        // return dbResults;
     };
 
     public void rateService() {
-
+        
     };
 
     public void fillShoppingCart() {
