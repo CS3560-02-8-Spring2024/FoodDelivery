@@ -50,7 +50,7 @@ CREATE TABLE _order(
     customer_id int(10) NOT NULL,
     driver_id int(10) NOT NULL,
     staff_id int(10) NOT NULL,
-    deliveryStatus char(12) NOT NULL,
+    deliveryStatus char(20) NOT NULL,
     PRIMARY KEY(order_id),
     FOREIGN KEY(customer_id) REFERENCES customer(customer_id),
     FOREIGN KEY(driver_id) REFERENCES deliverDriver(driver_id),
