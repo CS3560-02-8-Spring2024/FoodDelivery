@@ -36,8 +36,8 @@ public class CreateAccount extends JFrame implements ActionListener {
             @Override
             public void run() {
                 try {
-                    CreateAccount frame = new CreateAccount();
-                    frame.setVisible(true);
+                    CreateAccount createAccountPage = new CreateAccount();
+                    createAccountPage.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
