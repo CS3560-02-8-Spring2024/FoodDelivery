@@ -17,8 +17,8 @@ public class MainPage extends JFrame implements ActionListener {
             @Override
             public void run() {
                 try {
-                    MainPage frame = new MainPage();
-                    frame.setVisible(true);
+                    MainPage defaultPage = new MainPage();
+                    defaultPage.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
