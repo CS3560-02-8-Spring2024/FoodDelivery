@@ -16,8 +16,8 @@ public class DriverMainPage extends JFrame implements ActionListener {
             @Override
             public void run() {
                 try {
-                    Swing.DriverMainPage frame = new Swing.DriverMainPage();
-                    frame.setVisible(true);
+                    DriverMainPage driverMainPage = new DriverMainPage();
+                    driverMainPage.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
