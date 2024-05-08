@@ -148,6 +148,7 @@ public class CheckOut extends JFrame {
         confirm.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
         shippingInfoPanel.add(confirm);
 
+
         //Order detail fields
         orderDetails.add(Box.createVerticalStrut(15));
         JLabel orderDetailsTitle = new JLabel("Your Order Details");
@@ -155,13 +156,25 @@ public class CheckOut extends JFrame {
         orderDetailsTitle.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
         orderDetails.add(orderDetailsTitle);
 
+        String foodName[] = {"Burger", "Fries"};
+        Double prices[] = {3.99, 4.99};
+
+        for (int i = 0; i < foodName.length; i++) {
+            JLabel foodLabel = new JLabel(foodName[i] + ": $" + prices[i]);
+            foodLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            orderDetails.add(foodLabel);
+        }
         /**
          * Order information from database goes here
          */
+        Double totalAmt = 0.0;
+        for (int i = 0; i < prices.length; i++) {
+            totalAmt += prices[i];
+        }
 
         orderDetails.add(Box.createVerticalStrut(300));
-        JLabel prices = new JLabel("Total: "); // get totalPrice
-        orderDetails.add(prices, Component.LEFT_ALIGNMENT);
+        JLabel total = new JLabel("Total: " + totalAmt); // get totalPrice
+        orderDetails.add(total, Component.LEFT_ALIGNMENT);
 
         addComponentListener(new ComponentAdapter() {
             @Override
