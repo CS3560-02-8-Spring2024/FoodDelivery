@@ -121,9 +121,9 @@ public class StaffMainPage extends JFrame implements ActionListener {
             }
             if (e.getSource() == viewReviewButton) {
                 // When View Review button is clicked, create an instance of Review and show it
-                ViewReview viewReviewFrame = null;
+                ReviewUI viewReviewFrame = null;
 				try {
-					viewReviewFrame = new ViewReview();
+					viewReviewFrame = new ReviewUI();
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
