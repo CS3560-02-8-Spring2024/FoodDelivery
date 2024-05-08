@@ -94,11 +94,11 @@ public class StaffMainPage extends JFrame implements ActionListener {
                 // Hide the current frame if needed
                 setVisible(false);
             }*/
-                if (e.getSource() == viewOrderButton) {
-                // When View Order button is clicked, create an instance of Menu and show it
-                ViewOrder viewOrderFrame = null;
+                if (e.getSource() == menuButton) {
+                // When Menu Button button is clicked, create an instance of Menu and show it
+                NewMenu newMenuFrame = null;
 				try {
-					viewOrderFrame = new ViewOrder();
+					newMenuFrame = new NewMenu();
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -106,13 +106,13 @@ public class StaffMainPage extends JFrame implements ActionListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} //test change later
-                viewOrderFrame.setVisible(true);
+				newMenuFrame.setVisible(true);
                 // Hide the current frame if needed
                 setVisible(false);
             }
         	
             if (e.getSource() == viewOrderButton) {
-                // When View Order button is clicked, create an instance of Menu and show it
+                // When View Order button is clicked, create an instance of Order and show it
                 ViewOrder viewOrderFrame = null;
 				try {
 					viewOrderFrame = new ViewOrder();
@@ -128,7 +128,7 @@ public class StaffMainPage extends JFrame implements ActionListener {
                 setVisible(false);
             }
             if (e.getSource() == viewReviewButton) {
-                // When View Order button is clicked, create an instance of Menu and show it
+                // When View Review button is clicked, create an instance of Review and show it
                 ViewReview viewReviewFrame = null;
 				try {
 					viewReviewFrame = new ViewReview();
