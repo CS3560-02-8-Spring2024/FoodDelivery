@@ -1,4 +1,4 @@
-package Swing.CS3560DeliverySubSystem.src;
+//package Swing.CS3560DeliverySubSystem.src;
 import Swing.MainPage;
 
 import javax.swing.*;
@@ -10,8 +10,10 @@ import java.time.LocalDate;
 public class ReviewUI extends JFrame {
     private JTextArea reviewTextArea;
     private JPanel switchPanel;
+    private String title;
 
-    public ReviewUI() {
+    public ReviewUI(String title) {
+        this.title = title;
         setTitle("Review Viewer");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,7 +60,17 @@ public class ReviewUI extends JFrame {
         });
         mainPanel.add(switchButton,BorderLayout.EAST);
     }
-//Said that we might implement what was used for viewOrder so i comment blocked what i wrote for now
+
+    //This should be used to pass the title to the constructor
+    public static void main(String[] args){
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                ReviewUI reviewUI = new ReviewUI("Review Viewer");
+                reviewUI.setVisible(true);
+            }
+        });
+    }
 
     private void loadReviews() throws ClassNotFoundException, SQLException {
         //Clear previous content
