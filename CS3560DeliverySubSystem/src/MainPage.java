@@ -9,6 +9,10 @@ import java.awt.event.MouseEvent;
 public class MainPage extends JFrame implements ActionListener {
 
     private JButton signInButton;
+    private JButton viewOrderButton;
+    private JButton leaveReviewButton;
+    private JButton viewReviewButton;
+    private JButton menuButton;
     /**
      * Run application
      */
@@ -53,45 +57,107 @@ public class MainPage extends JFrame implements ActionListener {
         mainPanel.setBackground(new Color(255, 255, 255));
         redStrip.add(mainPanel);
 
-        JButton menuButton = new JButton("Search Menu");
+        menuButton = new JButton("Search Menu");
+        menuButton.addActionListener(this);
         menuButton.setSize(100, 30);
         menuButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
         mainPanel.add(Box.createVerticalStrut(75)); // Add vertical padding
         mainPanel.add(menuButton);
 
-        JButton viewOrderButton = new JButton("Check Order Status");
+        viewOrderButton = new JButton("Check Order Status");
+        viewOrderButton.addActionListener(this);
         viewOrderButton.setSize(100, 30);
         viewOrderButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
         mainPanel.add(Box.createVerticalStrut(20)); // Add vertical padding
         mainPanel.add(viewOrderButton);
 
-        JButton leaveReviewButton = new JButton("Leave a Review");
+        leaveReviewButton = new JButton("Leave a Review");
+        leaveReviewButton.addActionListener(this);
         leaveReviewButton.setSize(100, 30);
         leaveReviewButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
         mainPanel.add(Box.createVerticalStrut(20)); // Add vertical padding
         mainPanel.add(leaveReviewButton);
 
-        JButton viewReviewButton = new JButton("View Past Reviews");
+        viewReviewButton = new JButton("View Past Reviews");
+        viewReviewButton.addActionListener(this);
         viewReviewButton.setSize(100, 30);
         viewReviewButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
         mainPanel.add(Box.createVerticalStrut(20)); // Add vertical padding
         mainPanel.add(viewReviewButton);
 
         // Future implementation: Once signed in, remove Sign In button.
-        signInButton = new JButton("Sign In");
+        /*signInButton = new JButton("Sign In");
         signInButton.addActionListener(this);
         signInButton.setSize(100, 30);
         signInButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
         mainPanel.add(Box.createVerticalStrut(50)); // Add vertical padding
-        mainPanel.add(signInButton);
+        mainPanel.add(signInButton);*/
 
 
         }
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == signInButton) {
+        /*if (e.getSource() == signInButton) {
             // When submit button is clicked, create an instance of Menu and show it
             SignIntoAccount signInFrame = new SignIntoAccount(); //test change later
             signInFrame.setVisible(true);
+            // Hide the current frame if needed
+            setVisible(false);
+        }*/
+        if (e.getSource() == menuButton) {
+            // When View Order button is clicked, create an instance of Menu and show it
+            NewMenu newMenuFrame = null;
+			newMenuFrame = new NewMenu();
+			newMenuFrame.setVisible(true);
+            // Hide the current frame if needed
+            setVisible(false);
+        }
+    	
+        if (e.getSource() == viewOrderButton) {
+            // When View Order button is clicked, create an instance of Menu and show it
+            ViewOrder viewOrderFrame = null;
+			try {
+				viewOrderFrame = new ViewOrder();
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} //test change later
+            viewOrderFrame.setVisible(true);
+            // Hide the current frame if needed
+            setVisible(false);
+        }
+        if (e.getSource() == leaveReviewButton) {
+            // When View Order button is clicked, create an instance of Menu and show it
+            ReviewService leaveReviewFrame = null;
+			try {
+				leaveReviewFrame = new ReviewService();
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} //test change later
+			leaveReviewFrame.setVisible(true);
+            // Hide the current frame if needed
+            setVisible(false);
+        }
+        
+        if (e.getSource() == viewReviewButton) {
+            // When View Order button is clicked, create an instance of Menu and show it
+            ViewReview viewReviewFrame = null;
+			try {
+				viewReviewFrame = new ViewReview();
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} //test change later
+            viewReviewFrame.setVisible(true);
             // Hide the current frame if needed
             setVisible(false);
         }
