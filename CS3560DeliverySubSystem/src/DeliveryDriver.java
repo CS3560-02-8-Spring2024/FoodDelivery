@@ -5,16 +5,19 @@ public class DeliveryDriver {
     private String availability;
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        DeliveryDriver driver2 = new DeliveryDriver(2, "yes");
+        DeliveryDriver driver2 = new DeliveryDriver(5, "yes");
         String update = "no";
         driver2.updateAvail(2, update);
     }
 
-
-    DeliveryDriver(int driverID, String avaliable) throws ClassNotFoundException, SQLException{
+    //Constructor 
+    DeliveryDriver(int driverID, String available) {
         this.driverID = driverID;
-        availability = avaliable;
+        availability = available;
+    }
 
+    //Setter method to input into database
+    public void createDriver() throws ClassNotFoundException, SQLException{
          //SQL statement
          String sqlQuery = "INSERT INTO cs3560dfss.deliverdriver(driver_id, availability) VALUES (?, ?)";
          //Opens connection to the database
@@ -23,7 +26,7 @@ public class DeliveryDriver {
          try (PreparedStatement sqlSt = dbConnect.prepareStatement(sqlQuery)) {
              // Set parameters for the SQL statement
              sqlSt.setInt(1, driverID);
-             sqlSt.setString(2, avaliable);
+             sqlSt.setString(2, availability);
 
  
              // Execute the SQL statement
@@ -41,14 +44,14 @@ public class DeliveryDriver {
              error.printStackTrace();
          }
          //Closing the connection to the database (no leaks)
-         ConnectToServer.closeConnect(dbConnect);
+         ConnectToServer.closeConnect(dbConnect);  
     }
 
     public void updateAvail(int driverID, String status) throws ClassNotFoundException, SQLException {
         availability = status;
 
         Connection dbConnect = ConnectToServer.openConnect();
-        String sqlQuery = "UPDATE cs3560dfss.deliverdriver(driver_id, availability) SET availability = ? WHERE driver_id = ?";
+        String sqlQuery = "UPDATE cs3560dfss.deliverdriver SET availability = ? WHERE driver_id = ? ";
 
         try (PreparedStatement sqlSt = dbConnect.prepareStatement(sqlQuery)) {
             sqlSt.setString(1, status);

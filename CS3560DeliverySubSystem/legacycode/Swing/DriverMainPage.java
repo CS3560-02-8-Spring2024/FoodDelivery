@@ -1,4 +1,4 @@
-package Swing;
+package CS3560DeliverySubSystem.legacycode.Swing;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -16,7 +16,7 @@ public class DriverMainPage extends JFrame implements ActionListener {
             @Override
             public void run() {
                 try {
-                    Swing.DriverMainPage frame = new Swing.DriverMainPage();
+                    CS3560DeliverySubSystem.legacycode.Swing.DriverMainPage frame = new CS3560DeliverySubSystem.legacycode.Swing.DriverMainPage();
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();

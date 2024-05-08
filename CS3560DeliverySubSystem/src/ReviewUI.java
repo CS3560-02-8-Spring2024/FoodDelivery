@@ -1,19 +1,21 @@
-//package Swing.CS3560DeliverySubSystem.src;
-import Swing.MainPage;
+// package Swing.CS3560DeliverySubSystem.src;
+// import Swing.MainPage;
 
 import javax.swing.*;
+
+// import CS3560DeliverySubSystem.legacycode.ReviewUI;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
-import java.time.LocalDate;
+// import java.time.LocalDate;
 
 public class ReviewUI extends JFrame {
     private JTextArea reviewTextArea;
     private JPanel switchPanel;
-    private String title;
-
-    public ReviewUI(String title) {
-        this.title = title;
+    private Customer customer;
+    public ReviewUI(Customer customer) {
+        this.customer = customer;
         setTitle("Review Viewer");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,7 +57,11 @@ public class ReviewUI extends JFrame {
         switchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setContentPane(MainPage);
+                if(e.getSource() == switchButton) {
+                    MainPage backtoMain = new MainPage(customer);
+                    backtoMain.setVisible(true);
+                    setVisible(false);
+                }
             }
         });
         mainPanel.add(switchButton,BorderLayout.EAST);
@@ -66,7 +72,8 @@ public class ReviewUI extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                ReviewUI reviewUI = new ReviewUI("Review Viewer");
+                Customer temp = new Customer(0, "0", "0", "0", "0");
+                ReviewUI reviewUI = new ReviewUI(temp);
                 reviewUI.setVisible(true);
             }
         });
@@ -87,7 +94,7 @@ public class ReviewUI extends JFrame {
                 int foodQuality = resultSet.getInt("foodQuality");
                 int serviceQuality = resultSet.getInt("serviceQuality");
                 int deliveryQuality = resultSet.getInt("deliveryQuality");
-                LocalDate date = resultSet.getDate("_date").toLocalDate();
+                String date = resultSet.getString("_date");
                 String otherComments = resultSet.getString("otherComments");
 
                 //Append reviews from database into the main components
@@ -96,7 +103,7 @@ public class ReviewUI extends JFrame {
                 reviewTextArea.append("Food Quality: " + foodQuality + "\n");
                 reviewTextArea.append("Service Quality: " + serviceQuality + "\n");
                 reviewTextArea.append("Delivery Quality: " + deliveryQuality + "\n");
-                reviewTextArea.append("Date: " + date.toString() + "\n");
+                reviewTextArea.append("Date: " + date + "\n");
                 reviewTextArea.append("Other Comments: " + otherComments + "\n\n");
             }
         } finally {
@@ -104,12 +111,4 @@ public class ReviewUI extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                ReviewUI reviewUI = new ReviewUI();
-                reviewUI.setVisible(true);
-            }
-        });
-    }
 }

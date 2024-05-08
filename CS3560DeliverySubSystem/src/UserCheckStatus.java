@@ -1,4 +1,4 @@
-package Swing;
+// package Swing;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -10,12 +10,14 @@ import java.sql.*;
 
 public class UserCheckStatus extends JFrame implements ActionListener {
     private JButton exit;
+    private Customer customer;
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
                 try {
-                    UserCheckStatus userCheckStatus = new UserCheckStatus();
+                    Customer temp = new Customer(1, "0", "0", "0", "0"); 
+                    UserCheckStatus userCheckStatus = new UserCheckStatus(temp);
                     userCheckStatus.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -23,7 +25,8 @@ public class UserCheckStatus extends JFrame implements ActionListener {
             }
         });
     }
-    public UserCheckStatus() {
+    public UserCheckStatus(Customer customer) {
+        this.customer = customer;
         setTitle("Check Out");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(450, 0, 687, 700);
@@ -40,8 +43,9 @@ public class UserCheckStatus extends JFrame implements ActionListener {
         mainPanel.add(titleLabel);
 
         int orderID = 1;
-        //String itemName[] = {"Burger"};
+        // //String itemName[] = {"Burger"};
         String deliveryStatus = "Pick Up";
+        
         /*
         Order ID
          */
@@ -81,7 +85,7 @@ public class UserCheckStatus extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == exit) {
-            MainPage mainPage = new MainPage();
+            MainPage mainPage = new MainPage(customer);
             mainPage.setVisible(true);
             setVisible(false);
         }

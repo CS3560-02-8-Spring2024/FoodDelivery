@@ -164,7 +164,13 @@ public class CreateAccount extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == submit) {
             try {
-                saveAccount();
+                Customer customer;
+                customer = saveAccount();
+                // When submit button is clicked, create an instance of Menu and show it
+                MainPage MainPageFrame = new MainPage(customer); //test change later
+                MainPageFrame.setVisible(true);
+                // Hide the current frame if needed
+                setVisible(false);
                 //Catching errors (pre-generated)
             } catch (ClassNotFoundException e1) {
                 // TODO Auto-generated catch block
@@ -173,15 +179,11 @@ public class CreateAccount extends JFrame implements ActionListener {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
-            // When submit button is clicked, create an instance of Menu and show it
-            MainPage MainPageFrame = new MainPage(); //test change later
-            MainPageFrame.setVisible(true);
-            // Hide the current frame if needed
-            setVisible(false);
+
         }
     }
 
-    private void saveAccount() throws ClassNotFoundException, SQLException {
+    private Customer saveAccount() throws ClassNotFoundException, SQLException {
         // Get data from text fields
         String firstName = textField1.getText();
         String lastName = textField2.getText();
@@ -192,6 +194,7 @@ public class CreateAccount extends JFrame implements ActionListener {
 
         Customer newCustomer = new Customer(uniqueID, phoneNum, paymentType, firstName, lastName);
         newCustomer.createCustomer();
+        return newCustomer;
     }
 
 

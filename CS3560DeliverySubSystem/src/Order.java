@@ -7,14 +7,17 @@ public class Order {
     private int driverID;
     private String deliveryStatus;
 
-    Order(int orderID, int customerID, int driverID, String deliveryStatus) throws ClassNotFoundException, SQLException {
+    //GET RID OF THE ORDERID CREATION
+    Order(int orderID, int customerID, int driverID, String deliveryStatus) {
         this.orderID = orderID;
         this.customerID = customerID;
         this.driverID = driverID;
         this.deliveryStatus = deliveryStatus;
+    }
 
+    public void createOrder() throws ClassNotFoundException, SQLException  {
         //SQL statement
-        String sqlQuery = "INSERT INTO cs3560dfss._order(order_id, customer_id, driver_id, deliveryStatus) VALUES (?, ?, ?, ?)";
+        String sqlQuery = "INSERT INTO cs3560dfss._order(orderID, deliveryStatus, totalPrice) VALUES (?, ?, ?)";
         //Opens connection to the database
         Connection dbConnect = ConnectToServer.openConnect();
         //Try statement for inserting values into the database
@@ -42,6 +45,7 @@ public class Order {
         //Closing the connection to the database (no leaks)
         ConnectToServer.closeConnect(dbConnect);
     }
+
 
     public void updateDeliveryStatus(String newStatus) throws ClassNotFoundException, SQLException {
         Connection dbConnect = ConnectToServer.openConnect();
@@ -155,4 +159,10 @@ public class Order {
 
         return readyOrderIDs;
     }
+
+    public int getOrderID() {
+        return orderID;
+    }
+
+
 }

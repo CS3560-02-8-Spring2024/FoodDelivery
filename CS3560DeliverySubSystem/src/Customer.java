@@ -150,4 +150,8 @@ public class Customer {
         ConnectToServer.closeConnect(dbConnect);
         return dbResults;
     }
+
+    public int getCustomerID() {
+        return customerID;
+    }
 }

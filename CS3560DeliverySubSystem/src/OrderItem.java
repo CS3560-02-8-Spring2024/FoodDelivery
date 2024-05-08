@@ -6,13 +6,17 @@ public class OrderItem {
     private int itemID;
     private int orderID;
 
-    OrderItem(int orderItemID, int quantity, int itemID, int orderID) throws ClassNotFoundException, SQLException {
+    OrderItem(int orderItemID, int quantity, int itemID, int orderID) {
         this.orderItemID = orderItemID;
         this.quantity = quantity;
         this.itemID = itemID;
         this.orderID = orderID;
+    }
 
+
+    public void createOrderItem() throws ClassNotFoundException, SQLException {
         // SQL statement
+        //CHANGE THIS SO WE DONT NEED ORDER ITEM ID AUTO INCREMENT IT
         String sqlQuery = "INSERT INTO cs3560dfss.orderitem(orderitem_id, quantity, item_id, order_id) VALUES (?, ?, ?, ?)";
         //Opens connection to the database
         Connection dbConnect = ConnectToServer.openConnect();
@@ -41,6 +45,7 @@ public class OrderItem {
             ConnectToServer.closeConnect(dbConnect);
         }
     }
+
 
     public int getOrderItemID() throws ClassNotFoundException, SQLException {
         Connection dbConnect = ConnectToServer.openConnect();

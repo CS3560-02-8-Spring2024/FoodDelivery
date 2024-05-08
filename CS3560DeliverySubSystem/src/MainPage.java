@@ -1,6 +1,10 @@
 // package Demo;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import CS3560DeliverySubSystem.legacycode.ReviewUI;
+
+import java.sql.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +17,7 @@ public class MainPage extends JFrame implements ActionListener {
     private JButton leaveReviewButton;
     private JButton viewReviewButton;
     private JButton menuButton;
+    Customer customer;
     /**
      * Run application
      */
@@ -21,7 +26,9 @@ public class MainPage extends JFrame implements ActionListener {
             @Override
             public void run() {
                 try {
-                    MainPage defaultPage = new MainPage();
+                    //CHANGE FOR CUSTOMERID TO NOT BE EXISTING
+                    Customer temp = new Customer(1, "0", "0", "0", "0");
+                    MainPage defaultPage = new MainPage(temp);
                     defaultPage.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -32,7 +39,8 @@ public class MainPage extends JFrame implements ActionListener {
     /**
      * Create frame
      */
-    public MainPage() {
+    public MainPage(Customer customer) {
+        this.customer = customer;
         setTitle("Home Page");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 687, 531);
@@ -106,7 +114,12 @@ public class MainPage extends JFrame implements ActionListener {
         if (e.getSource() == menuButton) {
             // When View Order button is clicked, create an instance of Menu and show it
             NewMenu newMenuFrame = null;
-			newMenuFrame = new NewMenu();
+			try {
+                newMenuFrame = new NewMenu(customer);
+            } catch (ClassNotFoundException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
 			newMenuFrame.setVisible(true);
             // Hide the current frame if needed
             setVisible(false);
@@ -115,15 +128,7 @@ public class MainPage extends JFrame implements ActionListener {
         if (e.getSource() == checkStatusButton) {
             // When Check Status button is clicked, create an instance of Menu and show it
             UserCheckStatus viewOrderFrame = null;
-			try {
-				viewOrderFrame = new UserCheckStatus();
-			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} //test change later
+			viewOrderFrame = new UserCheckStatus(customer);
             viewOrderFrame.setVisible(true);
             // Hide the current frame if needed
             setVisible(false);
@@ -131,15 +136,7 @@ public class MainPage extends JFrame implements ActionListener {
         if (e.getSource() == leaveReviewButton) {
             // When View Order button is clicked, create an instance of Menu and show it
             ReviewService leaveReviewFrame = null;
-			try {
-				leaveReviewFrame = new ReviewService();
-			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} //test change later
+			leaveReviewFrame = new ReviewService(customer);
 			leaveReviewFrame.setVisible(true);
             // Hide the current frame if needed
             setVisible(false);
@@ -148,15 +145,7 @@ public class MainPage extends JFrame implements ActionListener {
         if (e.getSource() == viewReviewButton) {
             // When View Order button is clicked, create an instance of Menu and show it
             ReviewUI viewReviewFrame = null;
-			try {
-				viewReviewFrame = new ReviewUI();
-			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} //test change later
+			viewReviewFrame = new ReviewUI();
             viewReviewFrame.setVisible(true);
             // Hide the current frame if needed
             setVisible(false);

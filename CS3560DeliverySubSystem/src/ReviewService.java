@@ -13,6 +13,7 @@ public class ReviewService extends JFrame implements ActionListener {
     private JTextField bodyField;
     private JLabel[] stars;
     private int rating;
+    Customer customer;
 
     private JButton createReviewButton;
 
@@ -23,15 +24,17 @@ public class ReviewService extends JFrame implements ActionListener {
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
-                ReviewService reviewService = new ReviewService();
-                reviewService.setVisible(true);
+                //MUST CHANGE TO BE ALIGN WITH THE VALUES
+                Customer temp = new Customer(1, "0", "0", "0", "0");
+                ReviewService reviewServicePage = new ReviewService(temp);
+                reviewServicePage.setVisible(true);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
     }
-
-    public ReviewService() {
+    public ReviewService(Customer customer) {
+        this.customer = customer;
         setTitle("Review Service");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(450, 0, 687, 600);
@@ -161,6 +164,9 @@ public class ReviewService extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == createReviewButton) {
+            MainPage mainPage = new MainPage(customer);
+            mainPage.setVisible(true);
+            setVisible(false);
             // Get selected values from JComboBoxes
             int foodQualityValue = (int) foodQuality.getSelectedItem();
             int serviceQualityValue = (int) serviceQuality.getSelectedItem();

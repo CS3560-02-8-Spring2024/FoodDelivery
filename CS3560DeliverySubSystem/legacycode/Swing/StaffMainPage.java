@@ -1,7 +1,8 @@
-package Swing;
+package CS3560DeliverySubSystem.legacycode.Swing;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +17,7 @@ public class StaffMainPage extends JFrame implements ActionListener {
                 @Override
                 public void run() {
                     try {
-                        Swing.StaffMainPage frame = new Swing.StaffMainPage();
+                        CS3560DeliverySubSystem.legacycode.Swing.StaffMainPage frame = new CS3560DeliverySubSystem.legacycode.Swing.StaffMainPage();
                         frame.setVisible(true);
                     } catch (Exception e) {
                         e.printStackTrace();

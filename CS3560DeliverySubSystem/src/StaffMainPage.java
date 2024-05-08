@@ -1,13 +1,17 @@
-package Demo;
+
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import CS3560DeliverySubSystem.legacycode.ReviewUI;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 
 public class StaffMainPage extends JFrame implements ActionListener {
-        private JButton signInButton;
+        // private JButton signInButton;
         private JButton viewOrderButton;
         private JButton viewReviewButton;
         private JButton menuButton;
@@ -55,7 +59,7 @@ public class StaffMainPage extends JFrame implements ActionListener {
             mainPanel.setBackground(new Color(255, 255, 255));
             redStrip.add(mainPanel);
 
-            menuButton = new JButton("Search Menu");
+            menuButton = new JButton("Online Order Creation");
             menuButton.addActionListener(this);
             menuButton.setSize(100, 30);
             menuButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
@@ -87,18 +91,12 @@ public class StaffMainPage extends JFrame implements ActionListener {
 
         }
         public void actionPerformed(ActionEvent e) {
-            /*if (e.getSource() == signInButton) {
-                // When submit button is clicked, create an instance of Menu and show it
-                SignIntoAccount signInFrame = new SignIntoAccount(); //test change later
-                signInFrame.setVisible(true);
-                // Hide the current frame if needed
-                setVisible(false);
-            }*/
                 if (e.getSource() == menuButton) {
                 // When Search Menu button is clicked, create an instance of Menu and show it
-                NewMenu newMenuFrame = null;
-				newMenuFrame = new NewMenu();
-				newMenuFrame.setVisible(true);
+                SignIntoAccount accCreateFrame = null;
+                //Handles SQL so needs error checking to make sure it can be done
+                accCreateFrame = new SignIntoAccount();
+				accCreateFrame.setVisible(true);
                 // Hide the current frame if needed
                 setVisible(false);
             }
@@ -108,6 +106,7 @@ public class StaffMainPage extends JFrame implements ActionListener {
                 ViewOrder viewOrderFrame = null;
 				try {
 					viewOrderFrame = new ViewOrder();
+                    viewOrderFrame.setVisible(true);
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -115,22 +114,13 @@ public class StaffMainPage extends JFrame implements ActionListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} //test change later
-                viewOrderFrame.setVisible(true);
                 // Hide the current frame if needed
                 setVisible(false);
             }
             if (e.getSource() == viewReviewButton) {
                 // When View Review button is clicked, create an instance of Review and show it
                 ReviewUI viewReviewFrame = null;
-				try {
-					viewReviewFrame = new ReviewUI();
-				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} //test change later
+				viewReviewFrame = new ReviewUI();
                 viewReviewFrame.setVisible(true);
                 // Hide the current frame if needed
                 setVisible(false);

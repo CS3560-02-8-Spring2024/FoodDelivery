@@ -51,11 +51,6 @@ public class ReadyOrders extends JFrame implements ActionListener{
         mainPanel.setBackground(new Color(255, 255, 255));
         redStrip.add(mainPanel, BorderLayout.CENTER);
 
-        // String data[][] = {
-        //         {"1", "Bob", "123 Elmo St", "NYC", "NY", "12345", "Ready for Delivery"},
-        //         {"2", "Chris", "123 Elmo St", "NYC", "NY", "12345","Ready for Delivery"},
-        //         {"3", "Jeff", "123 Elmo St", "NYC", "NY", "12345", "Ready for Delivery"}
-        // };
         String column[] = {"OrderID", "Customer", "Street", "City", "State", "Zip Code", "Status"};
 
         String[][] rawDataVals = new String[25][7];

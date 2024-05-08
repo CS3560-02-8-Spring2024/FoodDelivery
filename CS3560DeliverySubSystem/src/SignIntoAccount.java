@@ -1,6 +1,7 @@
 // package Demo;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,9 +10,6 @@ import java.awt.event.MouseEvent;
 import java.sql.*;
 
 public class SignIntoAccount extends JFrame implements ActionListener {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/fdss";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "";
 
     private JPanel mainPanel;
     private JTextField textField1;
@@ -23,7 +21,6 @@ public class SignIntoAccount extends JFrame implements ActionListener {
     /**
      * Run application
      */
-
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             @Override
@@ -58,7 +55,7 @@ public class SignIntoAccount extends JFrame implements ActionListener {
         panel1.setBounds(125, 0, 400, 531);
         panel.add(panel1);
 
-        JLabel welcome = new JLabel("Welcome to the PlaceHolder!");
+        JLabel welcome = new JLabel("Welcome to the Landfill!");
         welcome.setFont(new Font("Tahoma", Font.PLAIN, 25));
         welcome.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
         panel1.add(welcome);
@@ -132,39 +129,50 @@ public class SignIntoAccount extends JFrame implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
         if (e.getSource() == submit) {
-            MainPage mainPage = new MainPage();
-            mainPage.setVisible(true);
-            setVisible(false);
-
             String firstName = textField1.getText().trim();
             String phoneNumber = textField2.getText().trim();
-
-            try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-
-                String query = "INSERT INTO customer (firstName, phoneNumber) VALUES (?, ?)";
+            Connection connection;
+            try {
                 // Create a prepared statement to execute the SQL query
-                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                String query = "SELECT * FROM cs3560dfss.customer WHERE phonenumber = ? ";
+                connection = ConnectToServer.openConnect();
+                try(PreparedStatement statement = connection.prepareStatement(query)) {
                     // Set the parameters for the prepared statement
-                    statement.setString(1, firstName);
-                    statement.setString(2, phoneNumber);
-
+                    statement.setString(1, phoneNumber);
                     // Execute the SQL query to insert data into the database
-                    int rowsAffected = statement.executeUpdate();
-
-                    if (rowsAffected > 0) {
-                        // Data inserted successfully
-                        System.out.println("Data inserted successfully!");
-                    } else {
-                        // No rows affected, data not inserted
-                        System.out.println("Failed to insert data!");
+                    ResultSet customerInfo = statement.executeQuery();
+                    if (customerInfo.next()) {
+                        String custName = customerInfo.getString("firstName");
+                        if (custName.equals(firstName)) {
+                            // Data inserted successfully
+                            System.out.println("You have an account!");
+                            Customer customer = new Customer(customerInfo.getInt("customer_id"), 
+                                                            customerInfo.getString("phoneNumber"),
+                                                            customerInfo.getString("paymentInfo"), 
+                                                            customerInfo.getString("firstName"), 
+                                                            customerInfo.getString("lastName"));
+                            MainPage mainPage = new MainPage(customer);
+                            mainPage.setVisible(true);
+                            setVisible(false);
+                        } else {
+                            // No rows affected, data not inserted
+                            System.out.println("Failed to have an account!");
+                            JOptionPane.showMessageDialog(this, "You do not have an existing account!", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
+                    ConnectToServer.closeConnect(connection);
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                };
+                } catch (ClassNotFoundException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
                 }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Database error", "Error", JOptionPane.ERROR_MESSAGE);
+                    
             }
         }
-    }
 }
+

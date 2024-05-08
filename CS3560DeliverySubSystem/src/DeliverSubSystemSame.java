@@ -1,3 +1,5 @@
+import java.sql.*;
+
 public class DeliverSubSystemSame {
 
     public class DeliverySubSystem {
@@ -30,19 +32,6 @@ public class DeliverSubSystemSame {
             private boolean availability;
         }
         
-        
-        /*
-        * Customer class: create customers in restaurant system
-        */
-        public class Customer {
-            private int customerID;
-            private String address;
-            private String city;
-            private String state;
-            private String zipCode;
-            private String phoneNumber;
-            private String paymentInfo; //credit card #
-        }
         /*
         * Order class: create a customer's respective order
         */
@@ -87,10 +76,10 @@ public class DeliverSubSystemSame {
         * -Parameters: the menu is sectioend off so the customer will specify what type of food/drink they want (example: beverages, burgers, and etc)
         * -Return: the array of items specified by the type indicated through "menuType[]"
         */
-        public String[] printMenu(String orderType) {
-            String[] menuType; 
+        public ResultSet printMenu(String orderType) {
+            
     
-            return menuType[];
+            return null;
         }
     
         /*
@@ -115,7 +104,7 @@ public class DeliverSubSystemSame {
         * -Return: the status of that order
         */
         public String checkStatus(int orderID) {
-            return deliveryStatus;
+            return null;
         }
     
         /*

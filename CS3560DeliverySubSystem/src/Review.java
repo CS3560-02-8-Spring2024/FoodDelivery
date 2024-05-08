@@ -10,6 +10,7 @@ public class Review {
     private LocalDate date;
     private String otherComments;
 
+    //AUTO INCREMENT THIS BAD BOY TO GET RID OF REVIEW ID
     Review(int customerID, int foodQuality, int serviceQuality, int deliveryQuality, String otherComments) throws ClassNotFoundException, SQLException {
         this.customerID = customerID;
         this.foodQuality = foodQuality;
