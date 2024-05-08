@@ -109,7 +109,7 @@ public class Order {
         }
     }
 
-    public void cancelOrder() throws ClassNotFoundException, SQLException {
+    public void cancelOrder(int orderID) throws ClassNotFoundException, SQLException {
         Connection dbConnect = ConnectToServer.openConnect();
     
         String sqlQuery = "UPDATE orders SET deliveryStatus = 'Cancelled' WHERE orderID = ?";
