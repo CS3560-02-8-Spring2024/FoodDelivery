@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 public class MainPage extends JFrame implements ActionListener {
 
     private JButton signInButton;
-    private JButton viewOrderButton;
+    private JButton checkStatusButton;
     private JButton leaveReviewButton;
     private JButton viewReviewButton;
     private JButton menuButton;
@@ -64,12 +64,12 @@ public class MainPage extends JFrame implements ActionListener {
         mainPanel.add(Box.createVerticalStrut(75)); // Add vertical padding
         mainPanel.add(menuButton);
 
-        viewOrderButton = new JButton("Check Order Status");
-        viewOrderButton.addActionListener(this);
-        viewOrderButton.setSize(100, 30);
-        viewOrderButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
+        checkStatusButton = new JButton("Check Order Status");
+        checkStatusButton.addActionListener(this);
+        checkStatusButton.setSize(100, 30);
+        checkStatusButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
         mainPanel.add(Box.createVerticalStrut(20)); // Add vertical padding
-        mainPanel.add(viewOrderButton);
+        mainPanel.add(checkStatusButton);
 
         leaveReviewButton = new JButton("Leave a Review");
         leaveReviewButton.addActionListener(this);
@@ -112,11 +112,11 @@ public class MainPage extends JFrame implements ActionListener {
             setVisible(false);
         }
     	
-        if (e.getSource() == viewOrderButton) {
-            // When View Order button is clicked, create an instance of Menu and show it
-            ViewOrder viewOrderFrame = null;
+        if (e.getSource() == checkStatusButton) {
+            // When Check Status button is clicked, create an instance of Menu and show it
+            checkStatus viewOrderFrame = null;
 			try {
-				viewOrderFrame = new ViewOrder();
+				viewOrderFrame = new checkStatus();
 			} catch (ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
