@@ -45,11 +45,47 @@ public class ViewOrder extends JFrame implements ActionListener{
         mainPanel.setBackground(new Color(255, 255, 255));
         redStrip.add(mainPanel, BorderLayout.CENTER);
 
-        String data[][] = {
-                {"1", "Bob", "Steve", "Delivered"},
-                {"2", "Chris", "Brandon", "Ready for Delivery"},
-                {"3", "Jeff", "Ralph", "Ordered"}
-        };
+        String[][] rawDataVals = new String[25][4];
+        int counter = 0;
+        Connection dbConnect = ConnectToServer.openConnect();
+        int customerID;
+        String sqlQuery = "SELECT * FROM cs3560dfss._order WHERE deliveryStatus != ? AND deliveryStatus != ?";
+        try (PreparedStatement sqlSt = dbConnect.prepareStatement(sqlQuery)) {
+            sqlSt.setString(1, "Cancelled");
+            sqlSt.setString(2, "Done");
+            try (ResultSet dbResults = sqlSt.executeQuery()) {
+                while (dbResults.next()) {
+                    // Getting the orderID and the status of the delivery
+                    rawDataVals[counter][0] = String.valueOf(dbResults.getInt("order_id"));
+                    rawDataVals[counter][3] = dbResults.getString("deliveryStatus");
+                    customerID = dbResults.getInt("customer_id");
+                    // Getting the names of the customers of the orders
+                    String sqlQuery2 = "SELECT * FROM cs3560dfss.customer WHERE customer_id = ?";
+                    try (PreparedStatement sqlSt2 = dbConnect.prepareStatement(sqlQuery2)) {
+                        sqlSt2.setInt(1, customerID);
+                        try (ResultSet dbResults2 = sqlSt2.executeQuery()) {
+                            if (dbResults2.next()) {
+                                //These are the names
+                                rawDataVals[counter][1] = dbResults2.getString("firstName");
+                                rawDataVals[counter][2] = dbResults2.getString("lastName");
+                            }
+                        }
+                    }
+                    counter++;
+                }
+            }
+        }
+        //Closing the connection
+        ConnectToServer.closeConnect(dbConnect);
+
+        //Deep copying the values so we dont take up space 
+        String[][] data = new String[counter][4];
+        for (int i = 0; i < counter; i++) {
+            for (int j = 0; j <= 3; j++) {
+                data[i][j] = rawDataVals[i][j];
+            }
+        }
+        
         String column[] = {"OrderID", "Customer", "Driver", "Status"};
 
         DefaultTableModel model = new DefaultTableModel(data, column) {
