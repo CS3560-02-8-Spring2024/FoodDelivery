@@ -45,6 +45,13 @@ ADD COLUMN lastName varchar(255) NOT NULL;
 ALTER TABLE customer
 DROP COLUMN address;
 
+ALTER TABLE _order
+DROP FOREIGN KEY _order_ibfk_3;
+
+ALTER TABLE _order
+DROP COLUMN staff_id;
+
+
 CREATE TABLE _order(
 	order_id int(10) NOT NULL,
     customer_id int(10) NOT NULL,
