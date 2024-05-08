@@ -1,17 +1,17 @@
 package Demo;
 import com.mysql.cj.x.protobuf.MysqlxCrud;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class ViewOrder extends JFrame {
+public class ViewOrder extends JFrame implements ActionListener{
+    private JButton updateButton;
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
@@ -23,7 +23,7 @@ public class ViewOrder extends JFrame {
         });
     }
 
-    public ViewOrder() throws ClassNotFoundException {
+    public ViewOrder() {
         setTitle("View Orders");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 687, 531);
@@ -50,8 +50,6 @@ public class ViewOrder extends JFrame {
                 {"2", "Chris", "Brandon", "Ready for Delivery"},
                 {"3", "Jeff", "Ralph", "Ordered"}
         };
-        
-
         String column[] = {"OrderID", "Customer", "Driver", "Status"};
 
         DefaultTableModel model = new DefaultTableModel(data, column) {
@@ -68,9 +66,20 @@ public class ViewOrder extends JFrame {
         JScrollPane sp = new JScrollPane(table);
         mainPanel.add(sp, BorderLayout.CENTER);
 
-        JButton updateButton = new JButton("Update");
+        updateButton = new JButton("Update");
+        updateButton.addActionListener(this);
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(updateButton);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == updateButton) {
+            StaffMainPage staffPage = new StaffMainPage();
+            staffPage.setVisible(true);
+            // Hide the current frame if needed
+            setVisible(false);
+        }
     }
 }
