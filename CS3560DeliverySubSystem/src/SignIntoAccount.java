@@ -11,14 +11,13 @@ import java.sql.*;
 public class SignIntoAccount extends JFrame implements ActionListener {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/fdss";
     private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "Screen.1!";
+    private static final String DB_PASSWORD = "";
 
     private JPanel mainPanel;
     private JTextField textField1;
-    private JPasswordField passwordField1;
+    private JTextField textField2;
 
     private JButton submit;
-
     private BorderLayout layout;
 
     /**
@@ -72,7 +71,7 @@ public class SignIntoAccount extends JFrame implements ActionListener {
         panel1.add(Box.createVerticalStrut(25));
 
 
-        JLabel createUSER = new JLabel("Enter E-Mail address");
+        JLabel createUSER = new JLabel("Enter First Name");
         createUSER.setFont(new Font("Tahoma", Font.PLAIN, 13));
         createUSER.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel1.add(createUSER);
@@ -84,17 +83,17 @@ public class SignIntoAccount extends JFrame implements ActionListener {
         panel1.add(textField1);
         panel1.add(Box.createVerticalStrut(15));
 
-        JLabel createPass = new JLabel("Enter Password");
+        JLabel createPass = new JLabel("Enter Phone Number");
         createPass.setFont(new Font("Tahoma", Font.PLAIN, 13));
         createPass.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel1.add(createPass);
         panel1.add(Box.createVerticalStrut(5));
 
 
-        passwordField1 = new JPasswordField();
-        passwordField1.setMaximumSize(new Dimension(200, 30));
-        passwordField1.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
-        panel1.add(passwordField1);
+        textField2 = new JTextField();
+        textField2.setMaximumSize(new Dimension(200, 30));
+        textField2.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
+        panel1.add(textField2);
         panel1.add(Box.createVerticalStrut(20));
 
 
@@ -135,72 +134,37 @@ public class SignIntoAccount extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == submit) {
-            //connecting to database
-
-            //retrieve email and password from fields
-            String email = textField1.getText().trim();
-            String password = new String(passwordField1.getPassword());
-
-            //authenticate user and get role from databse
-            String role = authenticateUser(email, password);
-
-            //Direct user to respective view based on role
-            if (role != null) {
-                switch (role) {
-                    case "customer":
-                        MainPage MainPageFrame = new MainPage(); //test change later
-                        MainPageFrame.setVisible(true);
-                        break;
-                    case "driver":
-                        DriverMainPage driverPage = new DriverMainPage();
-                        driverPage.setVisible(true);
-                        break;
-                    case "staff":
-                        StaffMainPage staffPage = new StaffMainPage();
-                        staffPage.setVisible(true);
-                        break;
-                    default:
-                        JOptionPane.showMessageDialog(this, "Role not found", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                setVisible(false);
-            } else {
-                JOptionPane.showMessageDialog(this, "Invalid email or password", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-
-            /**
-            // When submit button is clicked, create an instance of Menu and show it
-            MainPage MainPageFrame = new MainPage(); //test change later
-            MainPageFrame.setVisible(true);
-            // Hide the current frame if needed
+            MainPage mainPage = new MainPage();
+            mainPage.setVisible(true);
             setVisible(false);
-             **/
+
+            String firstName = textField1.getText().trim();
+            String phoneNumber = textField2.getText().trim();
+
+            try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+
+                String query = "INSERT INTO customer (firstName, phoneNumber) VALUES (?, ?)";
+                // Create a prepared statement to execute the SQL query
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    // Set the parameters for the prepared statement
+                    statement.setString(1, firstName);
+                    statement.setString(2, phoneNumber);
+
+                    // Execute the SQL query to insert data into the database
+                    int rowsAffected = statement.executeUpdate();
+
+                    if (rowsAffected > 0) {
+                        // Data inserted successfully
+                        System.out.println("Data inserted successfully!");
+                    } else {
+                        // No rows affected, data not inserted
+                        System.out.println("Failed to insert data!");
+                    }
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Database error", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
-
-    private String authenticateUser(String email, String password) {
-          try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-
-              String query = "SELECT 'customer' AS role FROM customer WHERE emailAddres = ? AND _password = ? " + "UNION ALL " +
-                 "SELECT 'driver' AS role FROM driver WHERE emailAddres = ? AND _password = ? " + "UNION ALL " +
-                 "SELECT 'staff' AS role FROM staff WHERE emailAddres = ? AND _password = ?";
-
-              try (PreparedStatement statement = connection.prepareStatement(query)) {
-                  statement.setString(1, email);
-                  statement.setString(2, password);
-                  statement.setString(3, email);
-                  statement.setString(4, password);
-                  statement.setString(5, email);
-                  statement.setString(6, password);
-                  try (ResultSet resultSet = statement.executeQuery()) {
-                      if (resultSet.next()) {
-                          return resultSet.getString("role");
-                      }
-                  }
-              }
-          } catch (SQLException ex) {
-              ex.printStackTrace();
-              JOptionPane.showMessageDialog(this, "Database error", "Error", JOptionPane.ERROR_MESSAGE);
-          }
-          return null; // Return null if authentication fails
-      }
 }
