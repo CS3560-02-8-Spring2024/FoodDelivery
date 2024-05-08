@@ -1,4 +1,4 @@
-package Swing.CS3560DeliverySubSystem.src;
+// package Swing.CS3560DeliverySubSystem.src;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -45,7 +45,7 @@ public class ReviewUI extends JFrame {
     }
 //Said that we might implement what was used for viewOrder so i comment blocked what i wrote for now
 
-/*    private void loadReviews() throws ClassNotFoundException, SQLException {
+    private void loadReviews() throws ClassNotFoundException, SQLException {
         //Clear previous content
         reviewTextArea.setText("");
 
@@ -60,7 +60,7 @@ public class ReviewUI extends JFrame {
                 int foodQuality = resultSet.getInt("foodQuality");
                 int serviceQuality = resultSet.getInt("serviceQuality");
                 int deliveryQuality = resultSet.getInt("deliveryQuality");
-                LocalDate date = resultSet.getDate("_date").toLocalDate();
+                String date = resultSet.getString("_date");
                 String otherComments = resultSet.getString("otherComments");
 
                 //Append reviews from database into the main components
@@ -69,14 +69,14 @@ public class ReviewUI extends JFrame {
                 reviewTextArea.append("Food Quality: " + foodQuality + "\n");
                 reviewTextArea.append("Service Quality: " + serviceQuality + "\n");
                 reviewTextArea.append("Delivery Quality: " + deliveryQuality + "\n");
-                reviewTextArea.append("Date: " + date.toString() + "\n");
+                reviewTextArea.append("Date: " + date + "\n");
                 reviewTextArea.append("Other Comments: " + otherComments + "\n\n");
             }
         } finally {
             ConnectToServer.closeConnect(dbConnect);
         }
     }
-*/
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
