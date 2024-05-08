@@ -62,15 +62,14 @@ public class ReadyOrders extends JFrame implements ActionListener{
         int counter = 0;
         Connection dbConnect = ConnectToServer.openConnect();
         int customerID;
-        String sqlQuery = "SELECT * FROM cs3560dfss._order WHERE deliveryStatus != ? AND deliveryStatus != ?";
+        String sqlQuery = "SELECT * FROM cs3560dfss._order WHERE deliveryStatus = ?";
         try (PreparedStatement sqlSt = dbConnect.prepareStatement(sqlQuery)) {
-            sqlSt.setString(1, "Cancelled");
-            sqlSt.setString(2, "Delivered");
+            sqlSt.setString(1, "RtD");
             try (ResultSet dbResults = sqlSt.executeQuery()) {
                 while (dbResults.next()) {
                     // Getting the orderID and the status of the delivery
                     rawDataVals[counter][0] = String.valueOf(dbResults.getInt("order_id"));
-                    rawDataVals[counter][3] = dbResults.getString("deliveryStatus");
+                    rawDataVals[counter][6] = dbResults.getString("deliveryStatus");
                     customerID = dbResults.getInt("customer_id");
                     // Getting the names of the customers of the orders
                     String sqlQuery2 = "SELECT * FROM cs3560dfss.customer WHERE customer_id = ?";
@@ -78,9 +77,21 @@ public class ReadyOrders extends JFrame implements ActionListener{
                         sqlSt2.setInt(1, customerID);
                         try (ResultSet dbResults2 = sqlSt2.executeQuery()) {
                             if (dbResults2.next()) {
-                                //These are the names
+                                //Getting the first name of the customer
                                 rawDataVals[counter][1] = dbResults2.getString("firstName");
-                                rawDataVals[counter][2] = dbResults2.getString("lastName");
+                            }
+                        }
+                    }
+                    String sqlQuery3 = "SELECT * FROM cs3560dfss.address WHERE customer_id = ?";
+                    try (PreparedStatement sqlSt2 = dbConnect.prepareStatement(sqlQuery3)) {
+                        sqlSt2.setInt(1, customerID);
+                        try (ResultSet dbResults2 = sqlSt2.executeQuery()) {
+                            if (dbResults2.next()) {
+                                //These are the names
+                                rawDataVals[counter][2] = dbResults2.getString("street");
+                                rawDataVals[counter][3] = dbResults2.getString("city");
+                                rawDataVals[counter][4] = dbResults2.getString("state");
+                                rawDataVals[counter][5] = dbResults2.getString("zipCode");
                             }
                         }
                     }
@@ -88,9 +99,9 @@ public class ReadyOrders extends JFrame implements ActionListener{
                 }
             }
         }
-        String[][] data = new String[counter][4];
+        String[][] data = new String[counter][7];
         for (int i = 0; i < counter; i++) {
-            for (int j = 0; j <= 3; j++) {
+            for (int j = 0; j <= 6; j++) {
                 data[i][j] = rawDataVals[i][j];
             }
         }

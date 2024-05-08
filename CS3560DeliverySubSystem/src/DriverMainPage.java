@@ -1,10 +1,12 @@
 //package Demo;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Driver;
+import java.sql.SQLException;
 
 public class DriverMainPage extends JFrame implements ActionListener {
     private JButton signInButton;
@@ -70,6 +72,7 @@ public class DriverMainPage extends JFrame implements ActionListener {
         mainPanel.add(Box.createVerticalStrut(20)); // Add vertical padding
         mainPanel.add(updateDeliveriesButton);
 
+
         // Future implementation: Once signed in, remove Sign In button.
         /*signInButton = new JButton("Sign In");
         signInButton.addActionListener(this);
@@ -79,8 +82,6 @@ public class DriverMainPage extends JFrame implements ActionListener {
         mainPanel.add(signInButton);
 
          */
-
-
     }
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == signInButton) {
@@ -92,15 +93,34 @@ public class DriverMainPage extends JFrame implements ActionListener {
         }
         if (e.getSource() == readyOrderButton) {
             // When submit button is clicked, create an instance of Menu and show it
-            ReadyOrders readyOrdersPage = new ReadyOrders(); //test change later
-            readyOrdersPage.setVisible(true);
+            ReadyOrders readyOrdersPage;
+            try {
+                readyOrdersPage = new ReadyOrders();
+                readyOrdersPage.setVisible(true);
+            } catch (ClassNotFoundException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            } //test change later
             // Hide the current frame if needed
             setVisible(false);
         }
         if (e.getSource() == updateDeliveriesButton) {
             // When submit button is clicked, create an instance of Menu and show it
-            DriverUpdateStatus driverUpdateStatusPage = new DriverUpdateStatus(); //test change later
-            driverUpdateStatusPage.setVisible(true);
+            DriverUpdateStatus driverUpdateStatusPage;
+            try {
+                driverUpdateStatusPage = new DriverUpdateStatus();
+                driverUpdateStatusPage.setVisible(true);
+                //pre-generated error catcher
+            } catch (ClassNotFoundException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            } //test change later
             // Hide the current frame if needed
             setVisible(false);
         }
