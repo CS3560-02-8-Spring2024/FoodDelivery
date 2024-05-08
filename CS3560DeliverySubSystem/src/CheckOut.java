@@ -4,9 +4,14 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.sql.*;
 
 public class CheckOut extends JFrame {
 
@@ -18,12 +23,16 @@ public class CheckOut extends JFrame {
     private JTextField zipCodeField;
 
     private JTextField phoneNumber;
-
+    private Customer customer;
+    private Order order;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
-                CheckOut checkOutPage = new CheckOut();
+                //GETTING RID OF CUSTOMER ID TO BE AUTOINCREMENTED
+                Customer temp = new Customer(1, "0", "0", "0", "0");
+                Order tempO = new Order(1, 1, 1, "0");
+                CheckOut checkOutPage = new CheckOut(temp, tempO);
                 checkOutPage.setVisible(true);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -31,7 +40,9 @@ public class CheckOut extends JFrame {
         });
     }
 
-    public CheckOut() {
+    public CheckOut(Customer customer, Order order) throws ClassNotFoundException, SQLException {
+        this.customer = customer;
+        this.order = order;
         setTitle("Check Out");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(450, 0, 687, 700);
@@ -69,22 +80,22 @@ public class CheckOut extends JFrame {
         mainPanel.add(orderDetails, BorderLayout.EAST);
 
         //Create fields
-        shippingInfoPanel.add(Box.createVerticalStrut(15));
-        JLabel creditcardInfo = new JLabel("Enter Credit Card Info");
-        creditcardInfo.setFont(new Font("Tahoma", Font.BOLD, 20));
-        creditcardInfo.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
-        shippingInfoPanel.add(creditcardInfo);
+        // shippingInfoPanel.add(Box.createVerticalStrut(15));
+        // JLabel creditcardInfo = new JLabel("Enter Credit Card Info");
+        // creditcardInfo.setFont(new Font("Tahoma", Font.BOLD, 20));
+        // creditcardInfo.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
+        // shippingInfoPanel.add(creditcardInfo);
 
-        shippingInfoPanel.add(Box.createVerticalStrut(5));
-        JLabel cardLabel = new JLabel("(Card # / Exp / CVV / ZIP) ");
-        cardLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
-        shippingInfoPanel.add(cardLabel);
-        paymentInfo = new JTextField();
-        paymentInfo.setMaximumSize(new Dimension(200, 30));
-        shippingInfoPanel.add(paymentInfo);
+        // shippingInfoPanel.add(Box.createVerticalStrut(5));
+        // JLabel cardLabel = new JLabel("(Card # / Exp / CVV / ZIP) ");
+        // cardLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
+        // shippingInfoPanel.add(cardLabel);
+        // paymentInfo = new JTextField();
+        // paymentInfo.setMaximumSize(new Dimension(200, 30));
+        // shippingInfoPanel.add(paymentInfo);
 
         shippingInfoPanel.add(Box.createVerticalStrut(15));
-        JLabel titleOfShippingPanel = new JLabel("Enter Shipping Info");
+        JLabel titleOfShippingPanel = new JLabel("Enter Delivery Info");
         titleOfShippingPanel.setFont(new Font("Tahoma", Font.BOLD, 20));
         titleOfShippingPanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
         shippingInfoPanel.add(titleOfShippingPanel);
@@ -124,6 +135,7 @@ public class CheckOut extends JFrame {
         stateComboBox = new JComboBox<>(states);
         stateComboBox.setMaximumSize(new Dimension(200, 30));
         shippingInfoPanel.add(stateComboBox);
+        String stateAddr = (String) stateComboBox.getSelectedItem();
 
         shippingInfoPanel.add(Box.createVerticalStrut(15));
         JLabel zipcodes = new JLabel("Zip Code");
@@ -134,14 +146,14 @@ public class CheckOut extends JFrame {
         zipCodeField.setMaximumSize(new Dimension(200, 30));
         shippingInfoPanel.add(zipCodeField);
 
-        shippingInfoPanel.add(Box.createVerticalStrut(15));
-        JLabel pn = new JLabel("Phone Number");
-        pn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        pn.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
-        shippingInfoPanel.add(pn);
-        phoneNumber = new JTextField();
-        phoneNumber.setMaximumSize(new Dimension(200, 30));
-        shippingInfoPanel.add(phoneNumber);
+        // shippingInfoPanel.add(Box.createVerticalStrut(15));
+        // JLabel pn = new JLabel("Phone Number");
+        // pn.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        // pn.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
+        // shippingInfoPanel.add(pn);
+        // phoneNumber = new JTextField();
+        // phoneNumber.setMaximumSize(new Dimension(200, 30));
+        // shippingInfoPanel.add(phoneNumber);
 
         shippingInfoPanel.add(Box.createVerticalStrut(35));
         JButton confirm = new JButton("Confirm");
@@ -156,22 +168,62 @@ public class CheckOut extends JFrame {
         orderDetailsTitle.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
         orderDetails.add(orderDetailsTitle);
 
-        String foodName[] = {"Burger", "Fries"};
-        Double prices[] = {3.99, 4.99};
+        // String foodName[] = {"Burger", "Fries"};
+        // Double prices[] = {3.99, 4.99};
 
-        for (int i = 0; i < foodName.length; i++) {
-            JLabel foodLabel = new JLabel(foodName[i] + ": $" + prices[i]);
+        String allFoodNames[] = new String[10];
+        Double allPrices[] = new Double[10];
+        int foodID;
+        int counter = 0;
+        Connection dbConnect = ConnectToServer.openConnect();
+        //Getting the food IDs 
+        String sqlQuery = "SELECT * FROM cs3560dfss.orderitem WHERE order_id = ";
+        try (PreparedStatement sqlSt = dbConnect.prepareStatement(sqlQuery)) {
+            sqlSt.setInt(1, order.getOrderID());
+            ResultSet dbResults = sqlSt.executeQuery(sqlQuery);
+            while(dbResults.next()) {
+                //Getting the food names
+                foodID = dbResults.getInt("item_id");
+                String sqlQuery2 = "SELECT * FROM cs3560dfss.menu WHERE item_id = ? ";
+                try (PreparedStatement sqlSt2 = dbConnect.prepareStatement(sqlQuery2)) {
+                    sqlSt2.setInt(1, foodID);
+                    ResultSet dbResults2 = sqlSt.executeQuery(sqlQuery);
+                    allFoodNames[counter] = dbResults2.getString("foodName");
+                    allPrices[counter] = dbResults2.getDouble("price");
+                }     
+                counter++;
+            }
+        }
+        ConnectToServer.closeConnect(dbConnect);
+
+        //Only obtain filled entries
+        String foodNames[] = new String[counter];
+        Double prices[] = new Double[counter];
+        for (int i = 0; i < counter; i++) {
+            foodNames[i] = allFoodNames[i];
+            prices[i] =  allPrices[i];
+        }    
+
+        for (int i = 0; i < foodNames.length; i++) {
+            JLabel foodLabel = new JLabel(foodNames[i] + ": $" + prices[i]);
             foodLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             orderDetails.add(foodLabel);
+
         }
         /**
          * Order information from database goes here
          */
         Double totalAmt = 0.0;
-        for (int i = 0; i < prices.length; i++) {
-            totalAmt += prices[i];
+        for (int i = 0; i < allPrices.length; i++) {
+            totalAmt += allPrices[i];
         }
 
+        String streetAddr = streetField.getText();
+        String cityAddr = cityField.getText();
+        String zipCodeAddr = zipCodeField.getText();
+        Address customerAddr = new Address(1, customer.getCustomerID(), streetAddr, cityAddr, stateAddr, zipCodeAddr);
+        customerAddr.createAddress();
+        
         orderDetails.add(Box.createVerticalStrut(300));
         JLabel total = new JLabel("Total: " + totalAmt); // get totalPrice
         orderDetails.add(total, Component.LEFT_ALIGNMENT);
@@ -197,5 +249,4 @@ public class CheckOut extends JFrame {
             }
         });
     }
-
 }

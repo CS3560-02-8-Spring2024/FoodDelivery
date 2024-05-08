@@ -22,6 +22,7 @@ public class NewMenu extends JFrame implements ActionListener{
     // private static final String DB_PASSWORD = "2002";
         JButton submit;
         Customer customer;
+        Order order;
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
@@ -133,6 +134,7 @@ public class NewMenu extends JFrame implements ActionListener{
         checkBoxPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         //Creating singular order
         Order foodOrder = new Order(6, customer.getCustomerID(), 3, "Ordered");
+        order = foodOrder;
         checkBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -142,7 +144,7 @@ public class NewMenu extends JFrame implements ActionListener{
                         String insertQuery = "INSERT INTO cs3560dfss.orderitem (orderitem_id, item_id, order_id) VALUES (?, ?, ?)";
                         try (PreparedStatement statement = connection.prepareStatement(insertQuery)) {
                             //ALSO GETTING RID OF THIS
-                            statement.setInt(1, 8);
+                            statement.setInt(1, 15);
                             statement.setInt(2, foodID);
                             statement.setInt(3, foodOrder.getOrderID());
                             int rowsAffected = statement.executeUpdate();
@@ -166,7 +168,7 @@ public class NewMenu extends JFrame implements ActionListener{
             if (e.getSource() == submit) {    
                 CheckOut accountCreation;
                 try {
-                    accountCreation = new CheckOut(customer);
+                    accountCreation = new CheckOut(customer, order);
                     accountCreation.setVisible(true);
                     // Hide the current frame if needed
                     setVisible(false);
