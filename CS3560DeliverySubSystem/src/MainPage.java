@@ -114,9 +114,9 @@ public class MainPage extends JFrame implements ActionListener {
     	
         if (e.getSource() == checkStatusButton) {
             // When Check Status button is clicked, create an instance of Menu and show it
-            checkStatus viewOrderFrame = null;
+            UserCheckStatus viewOrderFrame = null;
 			try {
-				viewOrderFrame = new checkStatus();
+				viewOrderFrame = new UserCheckStatus();
 			} catch (ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
