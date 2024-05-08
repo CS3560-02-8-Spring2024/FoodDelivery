@@ -3,13 +3,15 @@ import java.time.LocalDate;
 
 public class Review {
     private int reviewID;
+    private int customerID;
     private int foodQuality;
     private int serviceQuality;
     private int deliveryQuality;
     private LocalDate date;
     private String otherComments;
 
-    Review(int foodQuality, int serviceQuality, int deliveryQuality, String otherComments) throws ClassNotFoundException, SQLException {
+    Review(int customerID, int foodQuality, int serviceQuality, int deliveryQuality, String otherComments) throws ClassNotFoundException, SQLException {
+        this.customerID = customerID;
         this.foodQuality = foodQuality;
         this.serviceQuality = serviceQuality;
         this.deliveryQuality = deliveryQuality;
@@ -17,17 +19,19 @@ public class Review {
         this.otherComments = otherComments;
 
         // SQL statement
-        String sqlQuery = "INSERT INTO FDSS.review (foodQuality, serviceQuality, deliveryQuality, date, otherComments) VALUES (?, ?, ?, ?, ?)";
+        String sqlQuery = "INSERT INTO cs3560dfss.review(review_id, customer_id, foodQuality, serviceQuality, deliveryQuality, _date, otherComments) VALUES (?, ?, ?, ?, ?, ?, ?)";
         //Opens connection to the database
         Connection dbConnect = ConnectToServer.openConnect();
         //Try statement for inserting values into the database
         try (PreparedStatement sqlSt = dbConnect.prepareStatement(sqlQuery)) {
             // Set parameters for the SQL statement
-            sqlSt.setInt(1, foodQuality);
-            sqlSt.setInt(2, serviceQuality);
-            sqlSt.setInt(3, deliveryQuality);
-            sqlSt.setDate(4, java.sql.Date.valueOf(date));
-            sqlSt.setString(5, otherComments);
+            sqlSt.setInt(1, this.reviewID);
+            sqlSt.setInt(2, this.customerID);
+            sqlSt.setInt(3, this.foodQuality);
+            sqlSt.setInt(4, this.serviceQuality);
+            sqlSt.setInt(5, this.deliveryQuality);
+            sqlSt.setDate(6, java.sql.Date.valueOf(this.date));
+            sqlSt.setString(7, this.otherComments);
 
             // Execute the SQL statement
             int rowsInserted = sqlSt.executeUpdate();
@@ -48,12 +52,12 @@ public class Review {
         Connection dbConnect = ConnectToServer.openConnect();
         int retrievedReviewID = 0;
 
-        String sqlQuery = "SELECT reviewID FROM FDSS.review ORDER BY reviewID DESC LIMIT 1";
+        String sqlQuery = "SELECT review_id FROM cs3560dfss.review(review_id, customer_id, foodQuality, serviceQuality, deliveryQuality, _date, otherComments) ORDER BY review_ID DESC LIMIT 1";
         try (PreparedStatement sqlSt = dbConnect.prepareStatement(sqlQuery)) {
             ResultSet resultSet = sqlSt.executeQuery();
 
             if (resultSet.next()) {
-                retrievedReviewID = resultSet.getInt("reviewID");
+                retrievedReviewID = resultSet.getInt("review_id");
             } else {
                 System.err.println("Error: No review found.");
             }
@@ -71,7 +75,7 @@ public class Review {
         Connection dbConnect = ConnectToServer.openConnect();
         int retrievedFoodQuality = 0;
 
-        String sqlQuery = "SELECT foodQuality FROM DFSS.review WHERE reviewID = ?";
+        String sqlQuery = "SELECT foodQuality FROM cs3560dfss.review(review_id, customer_id, foodQuality, serviceQuality, deliveryQuality, _date, otherComments) WHERE review_ID = ?";
         try (PreparedStatement sqlSt = dbConnect.prepareStatement(sqlQuery)) {
             sqlSt.setInt(1, reviewID);
             ResultSet resultSet = sqlSt.executeQuery();
@@ -95,7 +99,7 @@ public class Review {
         Connection dbConnect = ConnectToServer.openConnect();
         int retrievedServiceQuality = 0;
 
-        String sqlQuery = "SELECT serviceQuality FROM DFSS.review WHERE reviewID = ?";
+        String sqlQuery = "SELECT serviceQuality FROM cs3560dfss.review(review_id, customer_id, foodQuality, serviceQuality, deliveryQuality, _date, otherComments) WHERE review_ID = ?";
         try (PreparedStatement sqlSt = dbConnect.prepareStatement(sqlQuery)) {
             sqlSt.setInt(1, reviewID);
             ResultSet resultSet = sqlSt.executeQuery();
@@ -119,7 +123,7 @@ public class Review {
         Connection dbConnect = ConnectToServer.openConnect();
         int retrievedDeliveryQuality = 0;
 
-        String sqlQuery = "SELECT deliveryQuality FROM DFSS.review WHERE reviewID = ?";
+        String sqlQuery = "SELECT deliveryQuality FROM cs3560dfss.review(review_id, customer_id, foodQuality, serviceQuality, deliveryQuality, _date, otherComments) WHERE review_ID = ?";
         try (PreparedStatement sqlSt = dbConnect.prepareStatement(sqlQuery)) {
             sqlSt.setInt(1, reviewID);
             ResultSet resultSet = sqlSt.executeQuery();
@@ -143,7 +147,7 @@ public class Review {
         Connection dbConnect = ConnectToServer.openConnect();
         LocalDate retrievedDate = null;
 
-        String sqlQuery = "SELECT date FROM DFSS.review WHERE reviewID = ?";
+        String sqlQuery = "SELECT _date FROM cs3560dfss.review(review_id, customer_id, foodQuality, serviceQuality, deliveryQuality, _date, otherComments) WHERE review_ID = ?";
         try (PreparedStatement sqlSt = dbConnect.prepareStatement(sqlQuery)) {
             sqlSt.setInt(1, reviewID);
             ResultSet resultSet = sqlSt.executeQuery();
@@ -167,7 +171,7 @@ public class Review {
         Connection dbConnect = ConnectToServer.openConnect();
         String retrievedComments = null;
 
-        String sqlQuery = "SELECT otherComments FROM DFSS.review WHERE reviewID = ?";
+        String sqlQuery = "SELECT otherComments FROM cs3560dfss.review(review_id, customer_id, foodQuality, serviceQuality, deliveryQuality, _date, otherComments) WHERE review_ID = ?";
         try (PreparedStatement sqlSt = dbConnect.prepareStatement(sqlQuery)) {
             sqlSt.setInt(1, reviewID);
             ResultSet resultSet = sqlSt.executeQuery();
