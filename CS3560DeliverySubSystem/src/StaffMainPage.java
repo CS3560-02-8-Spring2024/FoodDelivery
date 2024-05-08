@@ -95,17 +95,9 @@ public class StaffMainPage extends JFrame implements ActionListener {
                 setVisible(false);
             }*/
                 if (e.getSource() == menuButton) {
-                // When Menu Button button is clicked, create an instance of Menu and show it
+                // When Search Menu button is clicked, create an instance of Menu and show it
                 NewMenu newMenuFrame = null;
-				try {
-					newMenuFrame = new NewMenu();
-				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} //test change later
+				newMenuFrame = new NewMenu();
 				newMenuFrame.setVisible(true);
                 // Hide the current frame if needed
                 setVisible(false);
