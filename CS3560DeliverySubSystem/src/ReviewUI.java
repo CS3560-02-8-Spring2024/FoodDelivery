@@ -1,4 +1,6 @@
-// package Swing.CS3560DeliverySubSystem.src;
+package Swing.CS3560DeliverySubSystem.src;
+import Swing.MainPage;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -7,6 +9,7 @@ import java.time.LocalDate;
 
 public class ReviewUI extends JFrame {
     private JTextArea reviewTextArea;
+    private JPanel switchPanel;
 
     public ReviewUI() {
         setTitle("Review Viewer");
@@ -42,6 +45,18 @@ public class ReviewUI extends JFrame {
                 }
             }
         });
+
+        //Button to return to main page
+        switchPanel = new JPanel();
+        switchPanel.setBackground(Color.BLACK);
+        JButton switchButton = new JButton("Back to Menu");
+        switchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setContentPane(MainPage);
+            }
+        });
+        mainPanel.add(switchButton,BorderLayout.EAST);
     }
 //Said that we might implement what was used for viewOrder so i comment blocked what i wrote for now
 
@@ -60,7 +75,7 @@ public class ReviewUI extends JFrame {
                 int foodQuality = resultSet.getInt("foodQuality");
                 int serviceQuality = resultSet.getInt("serviceQuality");
                 int deliveryQuality = resultSet.getInt("deliveryQuality");
-                String date = resultSet.getString("_date");
+                LocalDate date = resultSet.getDate("_date").toLocalDate();
                 String otherComments = resultSet.getString("otherComments");
 
                 //Append reviews from database into the main components
@@ -69,7 +84,7 @@ public class ReviewUI extends JFrame {
                 reviewTextArea.append("Food Quality: " + foodQuality + "\n");
                 reviewTextArea.append("Service Quality: " + serviceQuality + "\n");
                 reviewTextArea.append("Delivery Quality: " + deliveryQuality + "\n");
-                reviewTextArea.append("Date: " + date + "\n");
+                reviewTextArea.append("Date: " + date.toString() + "\n");
                 reviewTextArea.append("Other Comments: " + otherComments + "\n\n");
             }
         } finally {
