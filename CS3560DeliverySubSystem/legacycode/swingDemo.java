@@ -1,6 +1,5 @@
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
-package Swing;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,5 +25,8 @@ public class swingDemo {
 
         JButton submit = new JButton("Submit");
         f.add(submit);
+
+        JButton newPage = new JButton("Next");
+        f.add(newPage);
     }
 }

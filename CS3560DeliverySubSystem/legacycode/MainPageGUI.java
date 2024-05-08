@@ -23,7 +23,7 @@ public class MainPageGUI extends JFrame implements ActionListener {
         // Create panels for different screens
         createMainPanel();
         createSignInPanel();
-        createFriesPanel();
+        createMenuPanel();
         createDrinkPanel();
 
         setVisible(true);
@@ -90,7 +90,7 @@ public class MainPageGUI extends JFrame implements ActionListener {
         mainPanel.add(panel, "SignInPanel");
     }
 
-    private void createFriesPanel() {
+    private void createMenuPanel() {
         JPanel panel = new JPanel(new BorderLayout());
         JLabel label = new JLabel("Fries Screen", SwingConstants.CENTER);
         label.setPreferredSize(new Dimension(100,30));
