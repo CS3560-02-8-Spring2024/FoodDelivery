@@ -109,14 +109,13 @@ public class ViewOrder extends JFrame implements ActionListener{
                     int row = e.getFirstRow();
                     int column = e.getColumn();
                     DefaultTableModel model = (DefaultTableModel) e.getSource();
-                    String columnName = model.getColumnName(column);
                     Object data = model.getValueAt(row, column);
                     Object orderID = model.getValueAt(row, 0);
                     int orderIDVal = Integer.parseInt((String) orderID);
-                    Order updateOrd = new Order(orderIDVal, 1, 1, "test");
+                    Order updateOrd;
                     try {
+                        updateOrd = new Order(orderIDVal, 1, 1, "test");
                         updateOrd.updateDeliveryStatus(data.toString());
-                    //Catching potential errors (pre-generated)
                     } catch (ClassNotFoundException e1) {
                         // TODO Auto-generated catch block
                         e1.printStackTrace();
@@ -138,8 +137,6 @@ public class ViewOrder extends JFrame implements ActionListener{
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(updateButton);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-
     }
 
     @Override
