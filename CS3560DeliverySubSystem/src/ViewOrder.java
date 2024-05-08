@@ -2,6 +2,9 @@
 import com.mysql.cj.x.protobuf.MysqlxCrud;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,7 +56,7 @@ public class ViewOrder extends JFrame implements ActionListener{
         String sqlQuery = "SELECT * FROM cs3560dfss._order WHERE deliveryStatus != ? AND deliveryStatus != ?";
         try (PreparedStatement sqlSt = dbConnect.prepareStatement(sqlQuery)) {
             sqlSt.setString(1, "Cancelled");
-            sqlSt.setString(2, "Done");
+            sqlSt.setString(2, "Delivered");
             try (ResultSet dbResults = sqlSt.executeQuery()) {
                 while (dbResults.next()) {
                     // Getting the orderID and the status of the delivery
@@ -98,6 +101,33 @@ public class ViewOrder extends JFrame implements ActionListener{
 
         JTable table = new JTable(model);
         JComboBox<String> statusComboBox = new JComboBox<>(new String[]{"Ordered", "Ready to Deliver", "Picked Up", "Delivered", "Cancelled"});
+        model.addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                //Checking for updates within the table itself
+                if (e.getType() == TableModelEvent.UPDATE && e.getColumn() == 3) {
+                    int row = e.getFirstRow();
+                    int column = e.getColumn();
+                    DefaultTableModel model = (DefaultTableModel) e.getSource();
+                    String columnName = model.getColumnName(column);
+                    Object data = model.getValueAt(row, column);
+                    Object orderID = model.getValueAt(row, 0);
+                    int orderIDVal = Integer.parseInt((String) orderID);
+                    Order updateOrd = new Order(orderIDVal, 1, 1, "test");
+                    try {
+                        updateOrd.updateDeliveryStatus(data.toString());
+                    //Catching potential errors (pre-generated)
+                    } catch (ClassNotFoundException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    } catch (SQLException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                } 
+            }
+        });
+        
         table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(statusComboBox));
         table.setRowHeight(25);
         JScrollPane sp = new JScrollPane(table);
@@ -115,6 +145,7 @@ public class ViewOrder extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == updateButton) {
+
             StaffMainPage staffPage = new StaffMainPage();
             staffPage.setVisible(true);
             // Hide the current frame if needed
