@@ -1,6 +1,7 @@
-package Demo;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,16 +14,13 @@ import java.sql.SQLException;
 
 public class CreateAccount extends JFrame implements ActionListener {
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/fdss";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "Screen.1!";
-
     private JPanel mainPanel;
     private JTextField textField1;
     private JTextField textField2;
     private JTextField textField3;
-    private JPasswordField passwordField1;
-    private JPasswordField passwordField2;
+    private JTextField textField4;
+    // private JPasswordField passwordField1;
+    // private JPasswordField passwordField2;
     private JButton submit;
 
     private BorderLayout layout;
@@ -104,10 +102,10 @@ public class CreateAccount extends JFrame implements ActionListener {
         panel1.add(textField2);
         panel1.add(Box.createVerticalStrut(15));
 
-        JLabel createUSER = new JLabel("Enter E-Mail address");
-        createUSER.setFont(new Font("Tahoma", Font.PLAIN, 13));
-        createUSER.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel1.add(createUSER);
+        JLabel createPhoneNum = new JLabel("Enter Phone Number");
+        createPhoneNum.setFont(new Font("Tahoma", Font.PLAIN, 13));
+        createPhoneNum.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel1.add(createPhoneNum);
         panel1.add(Box.createVerticalStrut(5));
 
         textField3 = new JTextField(10);
@@ -116,17 +114,17 @@ public class CreateAccount extends JFrame implements ActionListener {
         panel1.add(textField3);
         panel1.add(Box.createVerticalStrut(15));
 
-        JLabel createPass = new JLabel("Create a Password");
-        createPass.setFont(new Font("Tahoma", Font.PLAIN, 13));
-        createPass.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel1.add(createPass);
+        JLabel createPayment = new JLabel("Enter Payment Type");
+        createPayment.setFont(new Font("Tahoma", Font.PLAIN, 13));
+        createPayment.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel1.add(createPayment);
         panel1.add(Box.createVerticalStrut(5));
 
 
-        passwordField1 = new JPasswordField();
-        passwordField1.setMaximumSize(new Dimension(200, 30));
-        passwordField1.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
-        panel1.add(passwordField1);
+        textField4 = new JTextField();
+        textField4.setMaximumSize(new Dimension(200, 30));
+        textField4.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
+        panel1.add(textField4);
         panel1.add(Box.createVerticalStrut(20));
 
 
@@ -165,7 +163,16 @@ public class CreateAccount extends JFrame implements ActionListener {
     }
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == submit) {
-            saveAccount();
+            try {
+                saveAccount();
+                //Catching errors (pre-generated)
+            } catch (ClassNotFoundException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
             // When submit button is clicked, create an instance of Menu and show it
             MainPage MainPageFrame = new MainPage(); //test change later
             MainPageFrame.setVisible(true);
@@ -174,37 +181,20 @@ public class CreateAccount extends JFrame implements ActionListener {
         }
     }
 
-    private void saveAccount() {
+    private void saveAccount() throws ClassNotFoundException, SQLException {
         // Get data from text fields
         String firstName = textField1.getText();
         String lastName = textField2.getText();
-        String email = textField3.getText();
-        String password = new String(passwordField1.getPassword());
+        String phoneNum = textField3.getText();
+        String paymentType = textField4.getText();
+        //UPDATE THIS TO BE UNIQUE EVERYTIME
+        int uniqueID = 10;
 
-        // perform JDBC operations
-        try {
-            Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-
-            String sql = "INSERT INTO customer (firstName, lastName, emailAddres, _password) VALUES (?, ?, ?, ?)";
-
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, firstName);
-            preparedStatement.setString(2, lastName);
-            preparedStatement.setString(3, email);
-            preparedStatement.setString(4, password);
-
-            int rowsAffected = preparedStatement.executeUpdate();
-            preparedStatement.close();
-            connection.close();
-
-            if (rowsAffected > 0) { JOptionPane.showMessageDialog(this, "Account Created!"); }
-            else { JOptionPane.showMessageDialog(this, "Failed to create account", "Error", JOptionPane.ERROR_MESSAGE); }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-
+        Customer newCustomer = new Customer(uniqueID, phoneNum, paymentType, firstName, lastName);
+        newCustomer.createCustomer();
     }
+
+
 }
 
 
