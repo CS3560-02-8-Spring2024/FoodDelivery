@@ -1,13 +1,15 @@
 package Demo;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Driver;
 
 public class DriverMainPage extends JFrame implements ActionListener {
     private JButton signInButton;
+    private JButton readyOrderButton;
+    private JButton updateDeliveriesButton;
     /**
      * Run application
      */
@@ -16,8 +18,8 @@ public class DriverMainPage extends JFrame implements ActionListener {
             @Override
             public void run() {
                 try {
-                    DriverMainPage frame = new DriverMainPage();
-                    frame.setVisible(true);
+                    DriverMainPage driverDefaultPage = new DriverMainPage();
+                    driverDefaultPage.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -30,7 +32,7 @@ public class DriverMainPage extends JFrame implements ActionListener {
     public DriverMainPage() {
         setTitle("Driver Page");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 687, 531);
+        setBounds(450, 0, 687, 531);
 
         JPanel redStrip = new JPanel();
         redStrip.setToolTipText("");
@@ -39,7 +41,7 @@ public class DriverMainPage extends JFrame implements ActionListener {
         setContentPane(redStrip);
         redStrip.setLayout(null);
 
-        JLabel logo = new JLabel("LOGO");
+        JLabel logo = new JLabel("Driver");
         logo.setForeground(Color.WHITE); // Set text color to white
         logo.setFont(new Font("Tahoma", Font.BOLD, 20)); // Set font and size
         logo.setBounds(20, 20, 200, 30); // Set bounds
@@ -53,26 +55,30 @@ public class DriverMainPage extends JFrame implements ActionListener {
         redStrip.add(mainPanel);
 
         //Use case == Ready Orders changed for clarification
-        JButton menuButton = new JButton("Available Orders");
-        menuButton.setSize(100, 30);
-        menuButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
+        readyOrderButton = new JButton("Available Orders");
+        readyOrderButton.addActionListener(this);
+        readyOrderButton.setSize(100, 30);
+        readyOrderButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
         mainPanel.add(Box.createVerticalStrut(75)); // Add vertical padding
-        mainPanel.add(menuButton);
+        mainPanel.add(readyOrderButton);
 
         //Drivers can update orders here
-        JButton viewOrderButton = new JButton("View Deliveries");
-        viewOrderButton.setSize(100, 30);
-        viewOrderButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
+        updateDeliveriesButton = new JButton("Update Deliveries");
+        updateDeliveriesButton.addActionListener(this);
+        updateDeliveriesButton.setSize(100, 30);
+        updateDeliveriesButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
         mainPanel.add(Box.createVerticalStrut(20)); // Add vertical padding
-        mainPanel.add(viewOrderButton);
+        mainPanel.add(updateDeliveriesButton);
 
         // Future implementation: Once signed in, remove Sign In button.
-        signInButton = new JButton("Sign In");
+        /*signInButton = new JButton("Sign In");
         signInButton.addActionListener(this);
         signInButton.setSize(100, 30);
         signInButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
         mainPanel.add(Box.createVerticalStrut(50)); // Add vertical padding
         mainPanel.add(signInButton);
+
+         */
 
 
     }
@@ -84,5 +90,20 @@ public class DriverMainPage extends JFrame implements ActionListener {
             // Hide the current frame if needed
             setVisible(false);
         }
+        if (e.getSource() == readyOrderButton) {
+            // When submit button is clicked, create an instance of Menu and show it
+            ReadyOrders readyOrdersPage = new ReadyOrders(); //test change later
+            readyOrdersPage.setVisible(true);
+            // Hide the current frame if needed
+            setVisible(false);
+        }
+        if (e.getSource() == updateDeliveriesButton) {
+            // When submit button is clicked, create an instance of Menu and show it
+            DriverUpdateStatus driverUpdateStatusPage = new DriverUpdateStatus(); //test change later
+            driverUpdateStatusPage.setVisible(true);
+            // Hide the current frame if needed
+            setVisible(false);
+        }
     }
 }
+
