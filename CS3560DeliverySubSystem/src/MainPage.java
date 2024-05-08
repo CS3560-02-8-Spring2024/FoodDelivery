@@ -147,9 +147,9 @@ public class MainPage extends JFrame implements ActionListener {
         
         if (e.getSource() == viewReviewButton) {
             // When View Order button is clicked, create an instance of Menu and show it
-            ViewReview viewReviewFrame = null;
+            ReviewUI viewReviewFrame = null;
 			try {
-				viewReviewFrame = new ViewReview();
+				viewReviewFrame = new ReviewUI();
 			} catch (ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
