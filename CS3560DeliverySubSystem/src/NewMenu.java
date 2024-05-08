@@ -1,4 +1,4 @@
-package Swing;
+package Demo;
 
 import java.awt.*;
 
@@ -14,9 +14,9 @@ import java.net.URL;
 import java.sql.*;
 
 public class NewMenu extends JFrame {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/fdss";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/cs3560fdss";
     private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "Screen.1!";
+    private static final String DB_PASSWORD = "2002";
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {

@@ -1,10 +1,11 @@
-package Demo;
+
 import com.mysql.cj.x.protobuf.MysqlxCrud;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -23,7 +24,7 @@ public class ViewOrder extends JFrame implements ActionListener{
         });
     }
 
-    public ViewOrder() {
+    public ViewOrder() throws ClassNotFoundException, SQLException {
         setTitle("View Orders");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 687, 531);
@@ -96,7 +97,7 @@ public class ViewOrder extends JFrame implements ActionListener{
         };
 
         JTable table = new JTable(model);
-        JComboBox<String> statusComboBox = new JComboBox<>(new String[]{"Ordered", "Ready for Delivery", "Picked Up", "Delivered"});
+        JComboBox<String> statusComboBox = new JComboBox<>(new String[]{"Ordered", "Ready to Deliver", "Picked Up", "Delivered", "Cancelled"});
         table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(statusComboBox));
         table.setRowHeight(25);
         JScrollPane sp = new JScrollPane(table);
@@ -107,6 +108,8 @@ public class ViewOrder extends JFrame implements ActionListener{
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(updateButton);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+
     }
 
     @Override
